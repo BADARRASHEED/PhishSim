@@ -1,6 +1,6 @@
 # PhishSim 🛡️
 
-**PhishSim** is a web-based phishing simulation and awareness training platform designed to improve cybersecurity readiness in UK-based small to medium-sized organizations. Developed as part of an MSc Cybersecurity project at the University of Greenwich, PhishSim provides localized, customizable simulations in a safe and ethical environment.
+**PhishSim** is a web-based phishing simulation and cybersecurity awareness training platform developed as a freelance solution for UK-based small to medium-sized organizations. It delivers localized, customizable phishing simulations in a secure, ethical, and user-friendly environment to help organizations strengthen their human firewall.
 
 ## 🌐 Features
 
