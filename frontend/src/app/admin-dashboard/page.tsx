@@ -16,7 +16,6 @@ import {
     Legend,
 } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
-import Sidebar from '../components/admin/Sidebar'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
 
@@ -71,8 +70,6 @@ export default function AdminDashboard() {
 
     return (
         <div className="min-h-screen bg-[#0F0C29] text-white flex">
-
-           <Sidebar />
 
             {/* Main Content */}
             <main className="flex-1 p-6 md:p-10">
