@@ -8,7 +8,7 @@ export default function ContactSection() {
           Get in Touch
         </h2>
         <p className="text-gray-300">
-          Have questions or need a custom phishing simulation? Fill out the form below, and we'll get back to you within 24 hours.
+          Have questions or need a custom phishing simulation? Fill out the form below, and we&#39;ll get back to you within 24 hours.
         </p>
       </div>
 
