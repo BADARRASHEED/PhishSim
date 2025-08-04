@@ -25,7 +25,7 @@ const features = [
 
 export default function FeaturesSection() {
     return (
-        <section className="bg-[#0F0C29] py-24 px-6 text-white text-center">
+        <section className="bg-[#0F0C29] py-24 px-6 text-white text-center" id="features" >
             <h2 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#FFF]">Manage Security Services</h2>
             <p className="text-gray-300 max-w-3xl mx-auto mb-12">
                 Train your team with realistic phishing simulations and intelligent tools that strengthen your cybersecurity posture.

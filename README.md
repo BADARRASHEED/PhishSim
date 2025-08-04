@@ -15,7 +15,7 @@
 ## 🚀 Technologies Used
 
 - **Backend**: FastAPI (Python)
-- **Frontend**: HTML/CSS, JavaScript, Chart.js
+- **Frontend**: Next JS, Tailwind CSS, Chart.js
 - **Database**: PostgreSQL
 - **Other Tools**: Docker (optional), Git, Swagger (API docs)
 

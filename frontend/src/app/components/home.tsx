@@ -21,7 +21,7 @@ export default function HomeHero() {
         </p>
         <div className="flex gap-4 flex-wrap">
           <Link
-            href="/contact"
+            href="#contact"
             className="bg-[#FF2E63] text-white px-6 py-3 rounded-full hover:opacity-90 transition shadow"
           >
             Contact Us
