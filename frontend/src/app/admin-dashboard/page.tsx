@@ -1,6 +1,8 @@
-'use client'
+"use client"
 
-import { User, MailCheck, TrendingUp, Flag } from 'lucide-react'
+import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { User, MailCheck, TrendingUp, Flag, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import {
   Chart as ChartJS,
@@ -101,27 +103,65 @@ const options = {
 }
 
 export default function AdminDashboard() {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const pathname = usePathname()
+
+  const navItems = [
+    { href: '/admin-dashboard', label: 'Dashboard' },
+    { href: '/campaigns', label: 'Campaigns' },
+    { href: '/templates', label: 'Templates' },
+    { href: '/users', label: 'User Management' },
+    { href: '/reports', label: 'Reports' },
+    { href: '/settings', label: 'Settings' },
+  ]
+
   return (
     <div className="min-h-screen bg-[#0F0C29] text-white flex">
 
       {/* Sidebar */}
-      <aside className="w-64 bg-[#1C1B29] p-6 space-y-6 hidden md:block">
-        <h2 className="text-xl font-bold mb-8">PhishSim Admin</h2>
+      <aside
+        className={`fixed inset-y-0 left-0 z-30 w-64 bg-[#1C1B29] p-6 space-y-6 transform transition-transform duration-200 md:relative md:translate-x-0 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-xl font-bold">PhishSim Admin</h2>
+          <button className="md:hidden" onClick={() => setSidebarOpen(false)}>
+            <X />
+          </button>
+        </div>
         <nav className="space-y-4">
-          <Link href="/admin-dashboard" className="block text-gray-300 hover:text-white">Dashboard</Link>
-          <Link href="/campaigns" className="block text-gray-300 hover:text-white">Campaigns</Link>
-          <Link href="/templates" className="block text-gray-300 hover:text-white">Templates</Link>
-          <Link href="/users" className="block text-gray-300 hover:text-white">User Management</Link>
-          <Link href="/reports" className="block text-gray-300 hover:text-white">Reports</Link>
-          <Link href="/settings" className="block text-gray-300 hover:text-white">Settings</Link>
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`block hover:text-white ${
+                pathname === item.href ? 'text-[#FF2E63]' : 'text-gray-300'
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
       </aside>
+
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-20 bg-black/50 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10">
         {/* Header */}
         <header className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          <div className="flex items-center gap-4">
+            <button className="md:hidden" onClick={() => setSidebarOpen(true)}>
+              <Menu />
+            </button>
+            <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          </div>
           <div className="flex items-center gap-4">
             <p className="text-sm text-gray-400">Welcome, Admin</p>
             <button className="bg-[#FF2E63] px-4 py-2 text-sm rounded-md hover:bg-[#e82b58] transition">Logout</button>
