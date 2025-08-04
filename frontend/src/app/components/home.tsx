@@ -20,12 +20,12 @@ export default function HomeHero() {
           Empower your workforce with phishing simulations and futuristic learning environments that reduce human error and reinforce digital safety.
         </p>
         <div className="flex gap-4 flex-wrap">
-          <Link
+          <a
             href="#contact"
             className="bg-[#FF2E63] text-white px-6 py-3 rounded-full hover:opacity-90 transition shadow"
           >
             Contact Us
-          </Link>
+          </a>
           <Link
             href="/demo"
             className="border border-white text-white px-6 py-3 rounded-full hover:bg-white hover:text-[#0F0C29] transition"

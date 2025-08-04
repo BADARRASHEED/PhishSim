@@ -17,8 +17,8 @@ export default function Header() {
         {/* Center nav links */}
         <ul className="hidden md:flex gap-6 text-white font-medium">
           <li><Link href="/">Home</Link></li>
-          <li><Link href="#features">Features</Link></li>
-          <li><Link href="#contact">Contact</Link></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
 
         {/* Auth actions */}
