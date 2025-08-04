@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { PlusCircle, Pencil, Trash2, Eye, Pause, Play, X } from 'lucide-react'
-
+import Sidebar from '../components/admin/Sidebar'
 
 export default function CampaignPage() {
   const [campaigns, setCampaigns] = useState([
@@ -79,7 +79,7 @@ export default function CampaignPage() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      
+      <Sidebar />
 
       <main className="flex-1 overflow-y-auto bg-[#0F0C29] text-white p-8">
         <header className="flex justify-between items-center mb-6">
