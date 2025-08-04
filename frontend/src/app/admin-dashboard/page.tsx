@@ -1,5 +1,3 @@
-/* Updated Admin Dashboard with collapsible sidebar and icon-based navigation */
-
 'use client'
 
 import { useState } from 'react'
@@ -18,6 +16,7 @@ import {
     Legend,
 } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
+import Sidebar from '../components/admin/Sidebar'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
 
@@ -73,34 +72,7 @@ export default function AdminDashboard() {
     return (
         <div className="min-h-screen bg-[#0F0C29] text-white flex">
 
-            {/* Sidebar */}
-            <aside className={`transition-all duration-300 bg-[#1C1B29] h-screen sticky top-0 ${collapsed ? 'w-20' : 'w-64'} p-4`}>
-                <div className="h-16 flex items-center justify-between mb-8 px-2">
-                    {!collapsed && <h2 className="text-xl font-bold">PhishSim</h2>}
-                    <button
-                        onClick={() => setCollapsed(!collapsed)}
-                        className="ml-auto p-2 rounded hover:bg-[#2a293f] transition"
-                    >
-                        {collapsed ? <Menu size={24} /> : <X size={24} />} {/* You can replace <X /> with <ChevronLeft /> or <ArrowLeft /> */}
-                    </button>
-                </div>
-
-
-
-                <nav className="space-y-2">
-                    {navItems.map(({ href, label, icon: Icon }) => (
-                        <Link
-                            key={href}
-                            href={href}
-                            className={`flex items-center gap-3 px-3 py-2 rounded-md transition-all ${pathname === href ? 'bg-[#2a293f] text-[#FF2E63]' : 'text-gray-300 hover:text-white'
-                                }`}
-                        >
-                            <Icon size={20} />
-                            {!collapsed && <span className="text-sm">{label}</span>}
-                        </Link>
-                    ))}
-                </nav>
-            </aside>
+           <Sidebar />
 
             {/* Main Content */}
             <main className="flex-1 p-6 md:p-10">
