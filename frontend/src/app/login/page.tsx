@@ -8,13 +8,13 @@ import { Home } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (email === 'admin@gmail.com' && password === 'admin') {
+    if (username === 'admin' && password === 'admin') {
       router.push('/admin-dashboard')
     } else {
       router.push('/user-dashboard')
@@ -31,7 +31,7 @@ export default function LoginPage() {
       {/* Login Card */}
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#0F0C29] via-[#1F1C3A] to-[#2C2B4F]">
 
-        {/* Left: Image with fixed height */}
+        {/* Left: Image */}
         <div className="relative w-full h-64 md:h-auto">
           <Image
             src="/assets/login.jpg"
@@ -49,15 +49,15 @@ export default function LoginPage() {
           </p>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
-            {/* Email */}
+            {/* Username */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Email</label>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-1">Username</label>
               <input
                 type="text"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
                 className="w-full px-4 py-2 rounded-md bg-[#1C1B29] text-white border border-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF2E63]"
                 required
               />
