@@ -25,6 +25,12 @@ export default function RoleUserDetailsPage() {
     const [filterResult, setFilterResult] = useState('')
     const [filterRisk, setFilterRisk] = useState('')
 
+    // Modal State
+    const [showInviteModal, setShowInviteModal] = useState(false)
+    const [inviteEmail, setInviteEmail] = useState('')
+    const [inviteSent, setInviteSent] = useState(false)
+
+
     useEffect(() => {
         if (!selectedRole) return
 
@@ -85,7 +91,9 @@ export default function RoleUserDetailsPage() {
     }, [selectedRole])
 
     const filteredUsers = users.filter(user => {
-        const matchSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) || user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        const matchSearch =
+            user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchTerm.toLowerCase())
         const matchResult = filterResult ? user.result === filterResult : true
         const matchRisk = filterRisk ? user.risk === filterRisk : true
         return matchSearch && matchResult && matchRisk
@@ -93,18 +101,27 @@ export default function RoleUserDetailsPage() {
 
     return (
         <div className="min-h-screen bg-[#0F0C29] text-white p-10">
+            {/* Back button */}
             <button
-                onClick={() => router.replace('/users')
-}
+                onClick={() => router.replace('/users')}
                 className="text-pink-400 hover:text-pink-300 text-sm mb-6 underline"
             >
                 ← Back to Roles Overview
             </button>
 
-
-            <h1 className="text-3xl font-bold mb-4">
-                Users with Role: <span className="text-pink-400">{selectedRole}</span>
-            </h1>
+            {/* Heading & Invite Button */}
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+                <h1 className="text-3xl font-bold">
+                    Users with Role:{' '}
+                    <span className="text-pink-400">{selectedRole}</span>
+                </h1>
+                <button
+                    onClick={() => setShowInviteModal(true)}
+                    className="bg-pink-600 hover:bg-pink-700 px-4 py-2 rounded text-white text-sm font-semibold"
+                >
+                    + Invite User
+                </button>
+            </div>
 
             {/* Filters */}
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -136,6 +153,7 @@ export default function RoleUserDetailsPage() {
                 </select>
             </div>
 
+            {/* User Table */}
             {filteredUsers.length === 0 ? (
                 <p>No users found for this role.</p>
             ) : (
@@ -143,7 +161,16 @@ export default function RoleUserDetailsPage() {
                     <table className="min-w-full border border-gray-700 text-sm">
                         <thead className="bg-[#1C1B29]">
                             <tr>
-                                {["Name", "Email", "Campaigns", "Clicks", "False Reports", "Result", "Risk", ""].map((heading, i) => (
+                                {[
+                                    'Name',
+                                    'Email',
+                                    'Campaigns',
+                                    'Clicks',
+                                    'False Reports',
+                                    'Result',
+                                    'Risk',
+                                    '',
+                                ].map((heading, i) => (
                                     <th
                                         key={i}
                                         className="py-3 px-4 border-b border-gray-700 text-center font-semibold"
@@ -186,6 +213,69 @@ export default function RoleUserDetailsPage() {
                             ))}
                         </tbody>
                     </table>
+                </div>
+            )}
+
+            {/* Invite Modal */}
+            {showInviteModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className="bg-[#1C1B29] p-6 rounded-lg w-full max-w-md text-white">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold">Invite New User</h2>
+                            <button onClick={() => setShowInviteModal(false)} className="text-white text-lg">&times;</button>
+                        </div>
+
+                        <input
+                            type="email"
+                            placeholder="Enter email address"
+                            value={inviteEmail}
+                            onChange={e => setInviteEmail(e.target.value)}
+                            className="w-full px-3 py-2 mb-4 rounded bg-[#2A2A40] border border-gray-600"
+                        />
+
+                        {/* Invite Modal */}
+                        {showInviteModal && (
+                            <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+                                <div className="bg-[#1C1B29] p-6 rounded-lg w-full max-w-md text-white">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-xl font-bold">Invite New User</h2>
+                                        <button onClick={() => setShowInviteModal(false)} className="text-white text-lg">&times;</button>
+                                    </div>
+
+                                    <input
+                                        type="email"
+                                        placeholder="Enter email address"
+                                        value={inviteEmail}
+                                        onChange={e => {
+                                            setInviteEmail(e.target.value)
+                                            setInviteSent(false) // reset when editing
+                                        }}
+                                        className="w-full px-3 py-2 mb-4 rounded bg-[#2A2A40] border border-gray-600"
+                                    />
+
+                                    <button
+                                        onClick={() => {
+                                            if (!inviteEmail) return
+                                            setInviteSent(true)
+                                            setTimeout(() => {
+                                                setInviteEmail('')
+                                                setShowInviteModal(false)
+                                                setInviteSent(false)
+                                            }, 2000)
+                                        }}
+                                        className={`w-full py-2 rounded font-semibold transition ${inviteSent
+                                                ? 'bg-green-600 cursor-default'
+                                                : 'bg-pink-600 hover:bg-pink-700'
+                                            }`}
+                                        disabled={inviteSent}
+                                    >
+                                        {inviteSent ? 'Invitation Sent' : 'Send Invite'}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                    </div>
                 </div>
             )}
         </div>
