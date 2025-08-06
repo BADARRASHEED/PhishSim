@@ -4,7 +4,18 @@ import { useState } from 'react';
 import Sidebar from '../components/admin/Sidebar';
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState({
+  type Settings = {
+    allowRegistration: boolean;
+    defaultRole: string;
+    enableGamification: boolean;
+    feedbackStyle: string;
+    reportFormat: string;
+    sessionTimeout: number;
+    enable2FA: boolean;
+    lockAfterFailedAttempts: number;
+  };
+
+  const [settings, setSettings] = useState<Settings>({
     allowRegistration: true,
     defaultRole: 'User',
     enableGamification: false,
@@ -15,9 +26,11 @@ export default function SettingsPage() {
     lockAfterFailedAttempts: 5,
   });
 
-  const handleChange = (key: keyof typeof settings, value: any) => {
+
+  const handleChange = (key: keyof Settings, value: string | number | boolean) => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
+
 
   return (
     <div className="flex h-screen bg-[#0F0C29] text-white">
