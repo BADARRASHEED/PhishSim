@@ -25,11 +25,14 @@ export default function RoleUserDetailsPage() {
     const [filterResult, setFilterResult] = useState('')
     const [filterRisk, setFilterRisk] = useState('')
 
+    // Roles (fetched from dummy user list)
+    const [availableRoles, setAvailableRoles] = useState<string[]>([])
+
     // Modal State
     const [showInviteModal, setShowInviteModal] = useState(false)
     const [inviteEmail, setInviteEmail] = useState('')
+    const [inviteRole, setInviteRole] = useState('')
     const [inviteSent, setInviteSent] = useState(false)
-
 
     useEffect(() => {
         if (!selectedRole) return
@@ -38,7 +41,7 @@ export default function RoleUserDetailsPage() {
             {
                 name: 'John Doe',
                 email: 'john@example.com',
-                role: selectedRole,
+                role: 'Admin',
                 campaigns: 2,
                 clicks: 2,
                 falseReports: 0,
@@ -48,7 +51,7 @@ export default function RoleUserDetailsPage() {
             {
                 name: 'Jane Smith',
                 email: 'jane@example.com',
-                role: selectedRole,
+                role: 'Manager',
                 campaigns: 1,
                 clicks: 0,
                 falseReports: 1,
@@ -58,7 +61,7 @@ export default function RoleUserDetailsPage() {
             {
                 name: 'Ali Raza',
                 email: 'ali@example.com',
-                role: selectedRole,
+                role: 'Analyst',
                 campaigns: 2,
                 clicks: 1,
                 falseReports: 1,
@@ -68,7 +71,7 @@ export default function RoleUserDetailsPage() {
             {
                 name: 'Sara Khan',
                 email: 'sara@example.com',
-                role: selectedRole,
+                role: 'User',
                 campaigns: 1,
                 clicks: 0,
                 falseReports: 2,
@@ -78,7 +81,7 @@ export default function RoleUserDetailsPage() {
             {
                 name: 'Bilal Ahmed',
                 email: 'bilal@example.com',
-                role: selectedRole,
+                role: 'User',
                 campaigns: 2,
                 clicks: 3,
                 falseReports: 0,
@@ -88,6 +91,13 @@ export default function RoleUserDetailsPage() {
         ]
 
         setUsers(dummyUsers)
+
+        // Extract unique roles from users
+        const roles = Array.from(new Set(dummyUsers.map(u => u.role)))
+        setAvailableRoles(roles)
+
+        // Pre-fill inviteRole with current role
+        setInviteRole(selectedRole ?? '')
     }, [selectedRole])
 
     const filteredUsers = users.filter(user => {
@@ -161,20 +171,8 @@ export default function RoleUserDetailsPage() {
                     <table className="min-w-full border border-gray-700 text-sm">
                         <thead className="bg-[#1C1B29]">
                             <tr>
-                                {[
-                                    'Name',
-                                    'Email',
-                                    'Campaigns',
-                                    'Clicks',
-                                    'False Reports',
-                                    'Result',
-                                    'Risk',
-                                    '',
-                                ].map((heading, i) => (
-                                    <th
-                                        key={i}
-                                        className="py-3 px-4 border-b border-gray-700 text-center font-semibold"
-                                    >
+                                {['Name', 'Email', 'Campaigns', 'Clicks', 'False Reports', 'Result', 'Risk', ''].map((heading, i) => (
+                                    <th key={i} className="py-3 px-4 border-b border-gray-700 text-center font-semibold">
                                         {heading}
                                     </th>
                                 ))}
@@ -182,10 +180,7 @@ export default function RoleUserDetailsPage() {
                         </thead>
                         <tbody>
                             {filteredUsers.map((user, idx) => (
-                                <tr
-                                    key={idx}
-                                    className="hover:bg-[#2A2A40] transition"
-                                >
+                                <tr key={idx} className="hover:bg-[#2A2A40] transition">
                                     <td className="py-3 px-4 border-b border-gray-700 text-center">{user.name}</td>
                                     <td className="py-3 px-4 border-b border-gray-700 text-center">{user.email}</td>
                                     <td className="py-3 px-4 border-b border-gray-700 text-center">{user.campaigns}</td>
@@ -218,7 +213,7 @@ export default function RoleUserDetailsPage() {
 
             {/* Invite Modal */}
             {showInviteModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
                     <div className="bg-[#1C1B29] p-6 rounded-lg w-full max-w-md text-white">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-bold">Invite New User</h2>
@@ -229,52 +224,40 @@ export default function RoleUserDetailsPage() {
                             type="email"
                             placeholder="Enter email address"
                             value={inviteEmail}
-                            onChange={e => setInviteEmail(e.target.value)}
+                            onChange={e => {
+                                setInviteEmail(e.target.value)
+                                setInviteSent(false)
+                            }}
                             className="w-full px-3 py-2 mb-4 rounded bg-[#2A2A40] border border-gray-600"
                         />
 
-                        {/* Invite Modal */}
-                        {showInviteModal && (
-                            <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
-                                <div className="bg-[#1C1B29] p-6 rounded-lg w-full max-w-md text-white">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <h2 className="text-xl font-bold">Invite New User</h2>
-                                        <button onClick={() => setShowInviteModal(false)} className="text-white text-lg">&times;</button>
-                                    </div>
+                        <select
+                            value={inviteRole}
+                            onChange={e => setInviteRole(e.target.value)}
+                            className="w-full px-3 py-2 mb-4 rounded bg-[#2A2A40] border border-gray-600"
+                        >
+                            <option value="">Select Role</option>
+                            {availableRoles.map((role, i) => (
+                                <option key={i} value={role}>{role}</option>
+                            ))}
+                        </select>
 
-                                    <input
-                                        type="email"
-                                        placeholder="Enter email address"
-                                        value={inviteEmail}
-                                        onChange={e => {
-                                            setInviteEmail(e.target.value)
-                                            setInviteSent(false) // reset when editing
-                                        }}
-                                        className="w-full px-3 py-2 mb-4 rounded bg-[#2A2A40] border border-gray-600"
-                                    />
-
-                                    <button
-                                        onClick={() => {
-                                            if (!inviteEmail) return
-                                            setInviteSent(true)
-                                            setTimeout(() => {
-                                                setInviteEmail('')
-                                                setShowInviteModal(false)
-                                                setInviteSent(false)
-                                            }, 2000)
-                                        }}
-                                        className={`w-full py-2 rounded font-semibold transition ${inviteSent
-                                                ? 'bg-green-600 cursor-default'
-                                                : 'bg-pink-600 hover:bg-pink-700'
-                                            }`}
-                                        disabled={inviteSent}
-                                    >
-                                        {inviteSent ? 'Invitation Sent' : 'Send Invite'}
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-
+                        <button
+                            onClick={() => {
+                                if (!inviteEmail || !inviteRole) return
+                                setInviteSent(true)
+                                setTimeout(() => {
+                                    setInviteEmail('')
+                                    setInviteRole('')
+                                    setShowInviteModal(false)
+                                    setInviteSent(false)
+                                }, 2000)
+                            }}
+                            className={`w-full py-2 rounded font-semibold transition ${inviteSent ? 'bg-green-600 cursor-default' : 'bg-pink-600 hover:bg-pink-700'}`}
+                            disabled={inviteSent}
+                        >
+                            {inviteSent ? 'Invitation Sent' : 'Send Invite'}
+                        </button>
                     </div>
                 </div>
             )}
