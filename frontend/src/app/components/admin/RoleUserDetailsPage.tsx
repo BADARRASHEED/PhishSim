@@ -94,11 +94,13 @@ export default function RoleUserDetailsPage() {
     return (
         <div className="min-h-screen bg-[#0F0C29] text-white p-10">
             <button
-                onClick={() => router.back()}
+                onClick={() => router.replace('/users')
+}
                 className="text-pink-400 hover:text-pink-300 text-sm mb-6 underline"
             >
                 ← Back to Roles Overview
             </button>
+
 
             <h1 className="text-3xl font-bold mb-4">
                 Users with Role: <span className="text-pink-400">{selectedRole}</span>

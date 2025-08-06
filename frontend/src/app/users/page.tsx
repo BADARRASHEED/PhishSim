@@ -4,7 +4,7 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Plus, X } from 'lucide-react'
 import Sidebar from '@/app/components/admin/Sidebar'
 import { JSX, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation' // 👈 For redirection
+import { useRouter } from 'next/navigation' 
 
 interface RoleData {
     role: string
