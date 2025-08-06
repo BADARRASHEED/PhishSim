@@ -63,7 +63,7 @@ export default function ReportsPage() {
         datasets: [
             {
                 data: [userStats.passed, userStats.failed],
-                backgroundColor: ['#4CAF50', '#F44336'],
+                backgroundColor: ['#2b95e0', '#EC407A'],
             },
         ],
     };
@@ -80,14 +80,14 @@ export default function ReportsPage() {
     };
 
     return (
-        <div className="flex min-h-screen bg-[#0F0C29] text-white">
+        <div className="flex h-screen bg-[#0F0C29] text-white">
             {/* Sidebar */}
-            <div className="w-64 flex-none">
+            <div className="flex-none">
                 <Sidebar />
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 p-10 overflow-auto">
+            <div className="flex-1 ml-6 md:ml-8 p-10 overflow-auto">
                 <h1 className="text-3xl font-bold mb-6 text-pink-400">Reports Overview</h1>
 
                 {/* Summary Cards */}
