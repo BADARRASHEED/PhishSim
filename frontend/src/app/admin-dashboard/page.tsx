@@ -95,10 +95,7 @@ export default function AdminDashboard() {
   const pathname = usePathname()
   const router = useRouter()
 
-  const handleLogout = () => {
-    // Clear any auth data here (e.g., localStorage.removeItem('token'))
-    router.push('/') // Redirect to home page
-  }
+  
 
   return (
     <div className="min-h-screen bg-[#0F0C29] text-white flex">
@@ -110,12 +107,7 @@ export default function AdminDashboard() {
           <h1 className="text-2xl font-bold">Admin Dashboard</h1>
           <div className="flex items-center gap-4">
             <p className="text-sm text-gray-400">Welcome, Admin</p>
-            <button
-              onClick={handleLogout}
-              className="bg-[#FF2E63] px-4 py-2 text-sm rounded-md hover:bg-[#e82b58] transition"
-            >
-              Logout
-            </button>
+            
           </div>
         </header>
 

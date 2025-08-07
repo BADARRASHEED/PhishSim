@@ -63,7 +63,7 @@ export default function ReportsPage() {
         datasets: [
             {
                 data: [userStats.passed, userStats.failed],
-                backgroundColor: ['#2b95e0', '#EC407A'],
+                backgroundColor: ['#096b30', '#d40428'],
             },
         ],
     };

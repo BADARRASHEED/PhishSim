@@ -13,9 +13,13 @@ export default function SettingsPage() {
     sessionTimeout: number;
     enable2FA: boolean;
     lockAfterFailedAttempts: number;
+    enableRealtimeFeedback: boolean;
+    feedbackMessage: string;
+    pointsPerSafeAction: number;
+    badgeThreshold: number;
   };
 
-  const [settings, setSettings] = useState<Settings>({
+  const defaultSettings: Settings = {
     allowRegistration: true,
     defaultRole: 'User',
     enableGamification: false,
@@ -24,13 +28,18 @@ export default function SettingsPage() {
     sessionTimeout: 30,
     enable2FA: false,
     lockAfterFailedAttempts: 5,
-  });
+    enableRealtimeFeedback: true,
+    feedbackMessage: 'This action was unsafe. Please be cautious next time.',
+    pointsPerSafeAction: 10,
+    badgeThreshold: 100,
+  };
 
+  const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleChange = (key: keyof Settings, value: string | number | boolean) => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
-
 
   return (
     <div className="flex h-screen bg-[#0F0C29] text-white">
@@ -40,7 +49,13 @@ export default function SettingsPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 ml-6 md:ml-8 p-10 overflow-auto">
+      <div className="flex-1 ml-6 md:ml-8 p-10 overflow-auto relative">
+        {/* Toast Popup */}
+        {showPopup && (
+          <div className="fixed top-6 right-6 bg-green-600 text-white px-6 py-3 rounded shadow-lg z-50 transition-opacity duration-300">
+            Settings have been saved successfully.
+          </div>
+        )}
 
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-bold mb-6 text-pink-400">System Settings</h1>
@@ -75,6 +90,7 @@ export default function SettingsPage() {
             {/* Gamification & Feedback */}
             <div className="bg-[#1C1B29] p-6 rounded shadow">
               <h2 className="text-xl font-semibold mb-4">Gamification & Feedback</h2>
+
               <label className="flex items-center mb-3">
                 <input
                   type="checkbox"
@@ -84,6 +100,54 @@ export default function SettingsPage() {
                 />
                 Enable Gamification
               </label>
+
+              {settings.enableGamification && (
+                <>
+                  <label className="block mb-3">
+                    Points Per Safe Action:
+                    <input
+                      type="number"
+                      value={settings.pointsPerSafeAction}
+                      onChange={e => handleChange('pointsPerSafeAction', parseInt(e.target.value))}
+                      className="block mt-1 w-full bg-[#2A2A40] border border-gray-600 rounded px-3 py-2 text-white"
+                      min={1}
+                    />
+                  </label>
+                  <label className="block mb-3">
+                    Badge Threshold (Points):
+                    <input
+                      type="number"
+                      value={settings.badgeThreshold}
+                      onChange={e => handleChange('badgeThreshold', parseInt(e.target.value))}
+                      className="block mt-1 w-full bg-[#2A2A40] border border-gray-600 rounded px-3 py-2 text-white"
+                      min={1}
+                    />
+                  </label>
+                </>
+              )}
+
+              <label className="flex items-center mb-3 mt-2">
+                <input
+                  type="checkbox"
+                  checked={settings.enableRealtimeFeedback}
+                  onChange={e => handleChange('enableRealtimeFeedback', e.target.checked)}
+                  className="mr-2"
+                />
+                Enable Real-Time Feedback
+              </label>
+
+              {settings.enableRealtimeFeedback && (
+                <label className="block mb-3">
+                  Custom Feedback Message:
+                  <textarea
+                    value={settings.feedbackMessage}
+                    onChange={e => handleChange('feedbackMessage', e.target.value)}
+                    className="block mt-1 w-full bg-[#2A2A40] border border-gray-600 rounded px-3 py-2 text-white"
+                    rows={3}
+                  />
+                </label>
+              )}
+
               <label className="block mb-3">
                 Feedback Style:
                 <select
@@ -148,6 +212,26 @@ export default function SettingsPage() {
                 />
               </label>
             </div>
+          </div>
+
+          {/* Save / Cancel Buttons */}
+          <div className="mt-8 flex justify-end gap-4">
+            <button
+              onClick={() => {
+                setShowPopup(true);
+                setTimeout(() => setShowPopup(false), 3000);
+              }}
+              className="bg-pink-500 px-6 py-2 rounded text-white font-medium transition"
+            >
+              Save Settings
+            </button>
+
+            <button
+              onClick={() => setSettings(defaultSettings)}
+              className="bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded text-white font-medium transition"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </div>

@@ -98,7 +98,7 @@ export default function TemplateLibraryPage() {
       <Sidebar />
       <main className="flex-1 overflow-y-auto bg-[#0F0C29] text-white p-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Template Library</h1>
+          <h1 className="text-2xl font-bold text-pink-400">Template Library</h1>
           <Link
             href="/templates/create"
             className="flex items-center gap-2 bg-[#FF2E63] px-4 py-2 rounded hover:bg-[#e82b58]"

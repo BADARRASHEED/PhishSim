@@ -13,6 +13,7 @@ export default function CreateTemplatePage() {
   const [subject, setSubject] = useState('')
   const [difficulty, setDifficulty] = useState('')
   const [scenario, setScenario] = useState('')
+  const [role, setRole] = useState('') // New role state
   const [error, setError] = useState('')
   const [editor, setEditor] = useState<Editor | null>(null)
   const [showCancelModal, setShowCancelModal] = useState(false)
@@ -35,7 +36,7 @@ export default function CreateTemplatePage() {
   }, [])
 
   const handleSubmit = () => {
-    if (!name || !subject || !difficulty || !scenario || !editor?.getHTML()) {
+    if (!name || !subject || !difficulty || !scenario || !role || !editor?.getHTML()) {
       setError('Please fill out all fields and content.')
       return
     }
@@ -46,6 +47,7 @@ export default function CreateTemplatePage() {
       subject,
       difficulty,
       scenario,
+      role,
       content: editor.getHTML(),
       lastUpdated: new Date().toLocaleDateString('en-GB'),
     }
@@ -71,7 +73,7 @@ export default function CreateTemplatePage() {
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
       <main className="flex-1 bg-[#0F0C29] text-white p-8 overflow-y-auto relative">
-        <h1 className="text-2xl font-bold mb-6">Create New Template</h1>
+        <h1 className="text-2xl font-bold mb-6 text-pink-400">Create New Template</h1>
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
@@ -88,6 +90,21 @@ export default function CreateTemplatePage() {
             value={subject}
             onChange={e => setSubject(e.target.value)}
           />
+
+          {/* Role Selection */}
+          <select
+            className="w-full px-3 py-2 rounded bg-[#1C1B29] text-white"
+            value={role}
+            onChange={e => setRole(e.target.value)}
+          >
+            <option value="">Select Role</option>
+            <option value="IT">IT</option>
+            <option value="Finance">Finance</option>
+            <option value="HR">HR</option>
+            <option value="Operations">Operations</option>
+            <option value="General">General</option>
+          </select>
+
           <select
             className="w-full px-3 py-2 rounded bg-[#1C1B29] text-white"
             value={difficulty}
@@ -132,7 +149,7 @@ export default function CreateTemplatePage() {
           </div>
         </div>
 
-        {/* Custom Cancel Confirmation Modal */}
+        {/* Cancel Confirmation Modal */}
         {showCancelModal && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/10 flex items-center justify-center z-50">
             <div className="bg-[#1C1B29] text-white rounded-lg p-6 w-full max-w-md shadow-lg">
